@@ -5,6 +5,9 @@ import (
 	"encoding/json"
 	"net/http"
 	apiModel "api/model"
+	"io"
+	"io/ioutil"
+	"fmt"
 )
 
 type ApiResponse struct {
@@ -18,6 +21,16 @@ func ResponseWithJson(w http.ResponseWriter, code int, payload interface{}) {
 	w.WriteHeader(code)
 	w.Write(response)
 }
+
+func TransPostData(r *http.Request) []byte{
+	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1024)) //io.LimitReader限制大小
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer r.Body.Close()
+	return body
+}
+
 func InsertData(addTodo []byte, w http.ResponseWriter){
 	todoData := new(apiModel.ShowTodo)
 	_ = json.Unmarshal(addTodo, todoData) //轉為struct
