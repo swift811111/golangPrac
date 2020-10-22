@@ -48,7 +48,7 @@
                     self = this
                     axios.get('https://api.leosu811111.com/api/todoList')
                     .then(function (response) {
-                        self.taskArray = response.data ;
+                        self.taskArray = response.data.ResultMessage ;
                         console.log(response);
                     })
                     .catch(function (error) {
@@ -57,7 +57,7 @@
                 },
                 insert(){
                     self = this ;
-                    axios.post('https://api.leosu811111.com/api/todo', {
+                    axios.post('https://api.leosu811111.com/api/todo/add', {
                         Title: self.taskTitle,  
                         Content: self.taskContent,
                     })

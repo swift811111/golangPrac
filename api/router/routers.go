@@ -18,7 +18,7 @@ type Route struct {
 var routers []Route
 
 func init() {
-	register("POST", "/api/todo", apiController.AddTodoList, nil)
+	register("POST", "/api/todo/add", apiController.AddTodoList, nil)
 	register("GET", "/api/todoList", apiController.GetTodoList, nil)
 	register("POST", "/api/todo/delete", apiController.DeletTodoList, nil)
 	register("POST", "/api/todo/update", apiController.UpdateTodoList, nil)
