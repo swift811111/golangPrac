@@ -8,28 +8,13 @@ import (
 	apiServices "api/services"
 )
 
-type Todo struct {
-	Title string
-	Content string
-	Date string
-}
-
-type ApiResponse struct {
-	ResultCode    string
-	ResultMessage interface{}
-}
-
-type Resid struct {
-	Id string
-}
-
 func AddTodoList(w http.ResponseWriter, r *http.Request){
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1024)) //io.LimitReader限制大小
 	if err != nil {
 		fmt.Println(err)
 	}
 	defer r.Body.Close()
-	
+
 	apiServices.InsertData(body, w)
 }
 

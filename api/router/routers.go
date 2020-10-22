@@ -2,9 +2,8 @@ package routers
 
 import (
 	"net/http"
-
 	apiController "api/controller"
-
+	"github.com/joho/godotenv"
 	"github.com/gorilla/mux"
 )
 
@@ -18,6 +17,7 @@ type Route struct {
 var routers []Route
 
 func init() {
+	godotenv.Load()
 	register("POST", "/api/todo/add", apiController.AddTodoList, nil)
 	register("GET", "/api/todoList", apiController.GetTodoList, nil)
 	register("POST", "/api/todo/delete", apiController.DeletTodoList, nil)

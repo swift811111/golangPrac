@@ -7,19 +7,6 @@ import (
 	apiModel "api/model"
 )
 
-type Todo struct {
-	Title string
-	Content string
-	Date string
-}
-
-type ShowTodo struct {
-	Id int64 `json:"id"`
-	Title string `json:"title"`
-	Content string `json:"content"`
-	Date string `json:"date"`
-}
-
 type ApiResponse struct {
 	ResultCode    string
 	ResultMessage interface{}
