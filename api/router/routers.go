@@ -2,7 +2,7 @@ package routers
 
 import (
 	"net/http"
-	apiController "api/controller"
+	"api/controller"
 	"github.com/joho/godotenv"
 	"github.com/gorilla/mux"
 )
@@ -18,10 +18,13 @@ var routers []Route
 
 func init() {
 	godotenv.Load()
-	register("POST", "/api/todo/add", apiController.AddTodoList, nil)
-	register("GET", "/api/todoList", apiController.GetTodoList, nil)
-	register("POST", "/api/todo/delete", apiController.DeletTodoList, nil)
-	register("POST", "/api/todo/update", apiController.UpdateTodoList, nil)
+	register("POST", "/api/todo/add", controller.AddTodoList, nil)
+	register("GET", "/api/todo/showList", controller.GetTodoList, nil)
+	register("POST", "/api/todo/delete", controller.DeletTodoList, nil)
+	register("POST", "/api/todo/update", controller.UpdateTodoList, nil)
+	register("POST", "/api/todo/login", controller.Login, nil)
+	register("POST", "/api/todo/logout", controller.Logout, nil)
+	register("POST", "/api/todo/secret", controller.Secret, nil)
 }
 
 func NewRouter() *mux.Router {

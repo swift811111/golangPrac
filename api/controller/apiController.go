@@ -1,25 +1,41 @@
-package apiController
+package controller
 
 import (
 	"net/http"
-	apiServices "api/services"
+	"api/services"
 )
 
+// todo restful
 func AddTodoList(w http.ResponseWriter, r *http.Request){
-	body := apiServices.TransPostData(r)
-	apiServices.InsertData(body, w)
+	body := services.TransPostData(r)
+	services.InsertData(body, w)
 }
 
 func GetTodoList(w http.ResponseWriter, r *http.Request){
-	apiServices.ShowData(w)
+	services.ShowData(w)
 }
 
 func UpdateTodoList(w http.ResponseWriter, r *http.Request){
-	body := apiServices.TransPostData(r)
-	apiServices.UpdateData(body, w)
+	body := services.TransPostData(r)
+	services.UpdateData(body, w)
 	
 }
 func DeletTodoList(w http.ResponseWriter, r *http.Request){
-	body := apiServices.TransPostData(r)
-	apiServices.DeletData(body, w)
+	body := services.TransPostData(r)
+	services.DeletData(body, w)
+}
+
+// login
+func Login(w http.ResponseWriter, r *http.Request){
+	body := services.TransPostData(r)
+	services.Login(body, w, r)
+}
+
+func Logout(w http.ResponseWriter, r *http.Request){
+	// body := services.TransPostData(r)
+	// services.Logout(body, w, r)
+}
+
+func Secret(w http.ResponseWriter, r *http.Request){
+	services.Secret(w, r)
 }

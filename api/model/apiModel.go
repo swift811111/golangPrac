@@ -1,4 +1,4 @@
-package apiModel
+package model
 
 import (
     "database/sql"

@@ -1,10 +1,10 @@
-package apiServices
+package services
 
 import (
 	// "log"
 	"encoding/json"
 	"net/http"
-	apiModel "api/model"
+	"api/model"
 	"io"
 	"io/ioutil"
 	"fmt"
@@ -32,7 +32,7 @@ func TransPostData(r *http.Request) []byte{
 }
 
 func InsertData(addTodo []byte, w http.ResponseWriter){
-	todoData := new(apiModel.ShowTodo)
+	todoData := new(model.ShowTodo)
 	_ = json.Unmarshal(addTodo, todoData) //轉為struct
 
 	todoData.InserData()
@@ -41,23 +41,23 @@ func InsertData(addTodo []byte, w http.ResponseWriter){
 }
 
 func ShowData(w http.ResponseWriter){
-	todoData := new(apiModel.ShowTodo)
+	todoData := new(model.ShowTodo)
 	item := todoData.GetData()
 	response := ApiResponse{"200", item}
 	ResponseWithJson(w, http.StatusOK, response)
 }
 
 func UpdateData(data []byte, w http.ResponseWriter){
-	todoData := new(apiModel.ShowTodo)
+	todoData := new(model.ShowTodo)
 	_ = json.Unmarshal(data, todoData) //轉為struct
-
+	
 	todoData.UpdateData()
 	response := ApiResponse{"200", todoData}
 	ResponseWithJson(w, http.StatusOK, response)
 }
 
 func DeletData(data []byte, w http.ResponseWriter)  {
-	todoData := new(apiModel.ShowTodo)
+	todoData := new(model.ShowTodo)
 	_ = json.Unmarshal(data, todoData) //轉為struct
 	response := ApiResponse{"200", todoData}
 	ResponseWithJson(w, http.StatusOK, response)
