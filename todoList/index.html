@@ -11,8 +11,8 @@
 </head>
 <body>
     <div id="app">
-        <div class="todoListWrapper">
-            <div class="todoListTitle">Todo List</div>
+        <div v-if="loginStatus" class="todoListWrapper">
+		<div class="todoListTitle">Todo List {{ username }} <span @click="logout"></span></div>
             <div class="todoListAddbar">
                 <input class="form-control" placeholder="Record Title" v-model="taskTitle" type="text">
                 <input class="form-control" placeholder="Record Task" v-model="taskContent" type="text">
@@ -25,6 +25,14 @@
 			    <input type="text" id="itemTitle" :value="item.title" class="form-control" ><input type="text" id="itemContent" :value="item.content" class="form-control"><button class="updateBtn btn btn-success" :id="item.id"  @click="updateBtn">Update</button>
 		    </div>
                 </div>
+            </div>
+        </div>
+        <div v-if="!loginStatus" class="todoListWrapper loginList" style="height:100%">
+            <div class="loginWrapper">
+                <div class="loginTitle">Login</div>
+                <input class="form-control loginInput" placeholder="Username" v-model="inputusername" type="text">
+                <input class="form-control loginInput" placeholder="Password" v-model="inputpassword" type="password">
+                <button class="btn btn-success loginInput" style="width:100%"  @click="login">Login</button>
             </div>
         </div>
     </div>
@@ -40,13 +48,64 @@
                 taskContent: '',
                 taskId: 0,
 
-		isShowListItem: '' ,
-		 taskTitle :[],
+                inputusername:'',
+                inputpassword:'',
+        		username:'',
+		        userid:'',
+
+		        isShowListItem: '' ,
+		        taskTitle :[],
+                loginStatus: true ,
             },
             methods: {
+
+                login(){
+                    self = this;
+                    axios.post('https://api.leosu811111.com/api/todo/login',{
+                        Username: self.inputusername,
+                        Password: self.inputpassword
+                    })
+                    .then(function (response){
+                        if(response.data.ResultCode == "200"){
+                            self.userid = response.data.ResultMessage.id;
+                            self.username = response.data.ResultMessage.username;
+                            self.loginStatus = true ;
+                            self.getTask();
+                        }else {
+                            alert("帳號或密碼錯誤");
+                            self.loginStatus = false ;
+                        }
+                    })
+                    .catch(function (error){
+                        console.log(error);
+                    });
+                },
+                logout(){
+                    self = this;
+                    axios.post('https://api.leosu811111.com/api/todo/logout',{
+                        Username: self.username,
+                    })
+                    .then(function (response){
+                        self.loginStatus = false ;
+                    })
+                    .catch(function (error){
+                        console.log(error);
+                    });
+                },
+                secret(){
+                    self = this;
+                    axios.post('https://api.leosu811111.com/api/todo/secret')
+                    .then(function (response){
+                        if(response.status == 200)self.loginStatus = true ;
+                        else self.loginStatus = false ;
+                    })
+                    .catch(function (error){
+                        console.log(error);
+                    });
+                },
                 getTask(){
                     self = this
-                    axios.get('https://api.leosu811111.com/api/todoList')
+                    axios.get('https://api.leosu811111.com/api/todo/showList')
                     .then(function (response) {
                         self.taskArray = response.data.ResultMessage ;
                         console.log(response);
@@ -108,7 +167,7 @@
             mounted () {
                 //this.insert();
                 this.getTask();
-		
+                // this.secret();
             }
         })
         
@@ -179,5 +238,22 @@
     	justify-content: space-between;
     	border-radius: .3rem;
     }
+    .loginWrapper {
+        width: 40em;
+        padding: 3em 1em;
+        background-color: antiquewhite;
+    }
+    .loginInput{
+        margin-top: 3em;
+    }
+    .loginTitle {
+	font-size: 3em;
+    	color: lightcoral;
+   	 display: flex;
+    	justify-content: center;
+    }
 </style>
 </html>
+
+
+
